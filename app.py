@@ -122,21 +122,17 @@ def build_ai_result(
         "phishing_guvenlik": phishing
     }
 
-# ── ROUTE: STATIC PAGES ───────────────────────────────────────────────
-@app.get("/", response_class=HTMLResponse)
-@app.get("/argo.html", response_class=HTMLResponse)
-@app.get("/entry.html", response_class=HTMLResponse)
+# ── ROUTE: API STATUS & DOCS ──────────────────────────────────────────
+@app.get("/")
+@app.get("/api")
 async def home_page():
-    if os.path.exists("static/index.html"):
-        return FileResponse("static/index.html")
-    return JSONResponse({"status": "KAMA AI 5.0 Running", "docs": "/docs"})
-
-@app.get("/api", response_class=HTMLResponse)
-@app.get("/api.html", response_class=HTMLResponse)
-async def api_docs_page():
-    if os.path.exists("static/api.html"):
-        return FileResponse("static/api.html")
-    return JSONResponse({"docs": "/docs"})
+    return JSONResponse({
+        "status": "KAMA AI 5.0 Running",
+        "service": "kama_ai_5.0",
+        "version": "5.0.0",
+        "interactive_docs": "/docs",
+        "openapi_schema": "/openapi.json"
+    })
 
 # ── CORE ENDPOINTS ────────────────────────────────────────────────────
 @app.post("/kontrol")

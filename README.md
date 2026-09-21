@@ -1,114 +1,145 @@
-# ⚡ KAMA AI 6.0 — Bilişsel ve Güvenlik Zeka Platformu
+# 🛡️ KAMA AI 1.0 — Foundation Production Model
 
-[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-009688.svg)](https://fastapi.tiangolo.com/)
-[![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-ee4c2c.svg)](https://pytorch.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![RoBERTa Turkish](https://img.shields.io/badge/Backbone-RoBERTa%20Turkish-00f5ff.svg)](https://huggingface.co/dbmdz/bert-base-turkish-128k-uncased)
+[![Version](https://img.shields.io/badge/version-1.0.0--GA-emerald.svg)](https://github.com/kefy266/kama-ai)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-3.9%20%7C%203.10%20%7C%203.11%20%7C%203.12-indigo.svg)](https://python.org)
+[![FastAPI](https://img.shields.io/badge/FastAPI-Production%20Ready-009688.svg)](https://fastapi.tiangolo.com)
 
-**KAMA AI 6.0**, Açık Kaynak Türkçe RoBERTa (`dbmdz/bert-base-turkish-128k-uncased`) transformer mimarisi üzerine inşa edilmiş, karakter sansürü atlatma (leetspeak resolver), çocuk güvenliği ve siber zorbalık kalkanı, 4 tonlu yapay zeka diplomat dönüşümü, algoritmik KVKK veri maskelemesi ve e-posta oltalama (phishing) tespit sistemi içeren hibrit bir bilişsel yapay zeka motorudur.
+**KAMA AI 1.0**, Türkçeye özel eğitilmiş açık kaynaklı **RoBERTa Transformer mimarisi** ve bilişsel güvenlik kalkanını bir araya getiren yeni nesil yapay zeka denetim, siber güvenlik ve içerik moderasyon platformudur.
 
----
-
-## 🌟 KAMA AI 6.0 Temel Yetenekleri
-
-1. **🧠 Derin RoBERTa Türkçe Sınıflandırma:**
-   - 12 Transformer Bloğu, 128.000 Türkçe Vocab, 110M Parametre.
-   - 7 Sınıf Bilişsel Analiz: `TEMIZ`, `HAFIF_ARGO`, `HAKARET`, `KUFUR`, `TEHDIT`, `SIBER_ZORBALIK`, `COCUK_RISKI`.
-   - **Hard-Negative Whitelist:** *"kamu"*, *"eksik"*, *"psikoloji"*, *"klasik"*, *"amca"* gibi masum kelimelerde %100 sıfır yanlış pozitif.
-
-2. **🛡️ Filtre Atlama & Leetspeak Çözücü (Evasion Resolver):**
-   - Noktalı, boşluklu, tireli veya sembolik küfür atlatma hilelerini çözer (`@.m.k` ➔ `amk`, `s.i.k` ➔ `sik`, `0.r.0.s.p.u` ➔ `orospu`, `s!k!k` ➔ `sikik`).
-   - Homoglif (Cyrillic / Greek benzer harf) deşifresi.
-
-3. **👶 Çocuk Güvenliği & Siber Zorbalık Kalkanı:**
-   - Minor grooming, gizli buluşma, kişisel bilgi (adres, telefon, okul) isteme girişimlerini tespit eder (`COCUK_RISKI`).
-   - Akran zorbalığı ve dışlama kalıplarını analiz eder (`SIBER_ZORBALIK`).
-
-4. **🤖 Gelişmiş AI Diplomat v2 (4 Ton):**
-   - Sert veya kaba ifadeleri anlam kaybı olmadan **4 farklı tonda** dönüştürme:
-     - 🏢 **Kurumsal:** Profesyonel iş dili ve resmi yazışmalar.
-     - 🤝 **Arkadaş Canlısı:** Samimi, sıcak ve empatik üslup.
-     - 💡 **Yapıcı:** Çözüm odaklı ve gelişim dili.
-     - 🕊️ **Sakinleştirici:** Gerginliği yatıştıran arabulucu ton.
-
-5. **🔒 Algoritmik KVKK / PII Veri Kalkanı:**
-   - **T.C. Kimlik No:** 11 haneli kural ve Modulo-10 checksum doğrulaması.
-   - **TR IBAN:** Modulo-97 format ve banka kod kontrolü.
-   - **Kredi Kartı:** Luhn algoritması kontrollü tam doğrulama.
-   - **Telefon & E-posta:** Regex ve sınır kontrollü otomatik maskeleme.
-
-6. **🎣 EdgeMail Phishing & Güvenlik Kalkanı:**
-   - Aciliyet ve panik tetikleyicileri (*"Hesabınız askıya alındı"*, *"24 saat içinde şifrenizi girin"*).
-   - Şüpheli URL ve alan adı imza tespiti.
+KAMA AI artık beta sürecinden çıkmış olup **1.0.0 General Availability (GA)** kararlı sürümündedir.
 
 ---
 
-## 🚀 Hızlı Başlangıç (Quickstart)
+## ⚡ Temel Yetenekler & Özellikler
 
-### 1. Yerel Kurulum (Python)
+- **🛡️ 7 Sınıflı Derin Toksisite Tespiti:**
+  1. `TEMIZ` (Güvenli & Temiz İçerik)
+  2. `HAFIF_ARGO` (Sokak Dili & Hafif Argo)
+  3. `HAKARET` (Aşağılama & Kişilik Haklarına Saldırı)
+  4. `KUFUR` (Doğrudan Küfür & Ağır Argo)
+  5. `TEHDIT` (Fiziksel / Psikolojik Şiddet & Tehdit)
+  6. `SIBER_ZORBALIK` (Siber Zorbalık & İtibar Suikastı)
+  7. `COCUK_RISKI` (Çocuk İstismarı & Şüpheli İletişim Koruması)
 
+- **🔤 Leetspeak & Evasion Resolver (Sansür Atlatma Çözücü):**
+  - Noktalı, boşluklu veya sembollü filtre atlatma taktiklerini anında deşifre eder (`s.i.k.i.k`, `@.m.k`, `0.r.0.s.p.u`).
+  - Kiril/Grekçe harf ikamelerini (homoglyphs) ve aşırı harf tekrarlarını otomatik olarak çözer.
+
+- **🔒 KVKK & PII Veri Maskeleme Motoru:**
+  - TCKN, Telefon Numarası, Kredi Kartı, IBAN, E-posta ve IP adreslerini otomatik olarak tespit edip sansürler.
+
+- **🕊️ 4 Tonlu AI Diplomat (Yeniden Yazıcı):**
+  - Toksik veya kaba ifadeleri 4 farklı profesyonel üsluba çevirir:
+    - *Kurumsal (Corporate)*
+    - *Yapıcı (Constructive)*
+    - *Sakin (Calm)*
+    - *Diplomatik (Diplomatic)*
+
+- **🎯 Token Düzeyinde Attention Heatmap (Açıklanabilir Yapay Zeka):**
+  - Modelin hangi kelimelere odaklandığını gösteren dikkat ağırlıkları.
+
+---
+
+## 🚀 Hızlı Başlangıç
+
+### 1. Kurulum
 ```bash
-# 1. Depoyu klonlayın
-git clone https://github.com/kefy266/kama-ai-5.0.git
-cd kama-ai-5.0
-
-# 2. Sanal ortam oluşturun
-python3 -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
-
-# 3. Bağımlılıkları yükleyin
+git clone https://github.com/kefy266/kama-ai.git
+cd kama-ai
 pip install -r requirements.txt
+```
 
-# 4. Sunucuyu başlatın
+### 2. Sunucuyu Başlatma
+```bash
+python app.py
+# veya
 uvicorn app:app --host 0.0.0.0 --port 8000 --reload
+```
+Arayüz ve test stüdyosuna erişim: **`http://localhost:8000`**  
+Swagger API Dokümantasyonu: **`http://localhost:8000/docs`**
+
+---
+
+## 📡 API Kullanımı
+
+### Metin Analizi (`POST /v1/analyze`)
+```bash
+curl -X POST "http://localhost:8000/v1/analyze" \
+     -H "Content-Type: application/json" \
+     -d '{"text": "Burada s.i.k.i.k laflar edenler var @mk"}'
+```
+
+**Örnek Yanıt:**
+```json
+{
+  "durum": "KUFUR",
+  "sinif_id": 3,
+  "kategori": "KUFUR",
+  "guven_skoru": 0.94,
+  "guvenlik_durumu": "TEHLIKELI",
+  "toksik_mi": true,
+  "onemli_kelimeler": ["sikik", "amk"],
+  "tum_skorlar": {
+    "TEMIZ": 0.06,
+    "HAFIF_ARGO": 0.0,
+    "HAKARET": 0.0,
+    "KUFUR": 0.94,
+    "TEHDIT": 0.0,
+    "SIBER_ZORBALIK": 0.0,
+    "COCUK_RISKI": 0.0
+  },
+  "diplomat": {
+    "kurumsal": "Konuyla ilgili değerlendirmem şudur: Burada uygunsuz ifade laflar edenler var uygunsuz ifade. Profesyonel standartlar çerçevesinde ilerleyelim."
+  },
+  "pii": {
+    "original": "Burada s.i.k.i.k laflar edenler var @mk",
+    "masked": "Burada s.i.k.i.k laflar edenler var @mk",
+    "detected_types": []
+  },
+  "latency_ms": 1.2
+}
 ```
 
 ---
 
-## 📡 SDK ve Entegrasyonlar
+## 📦 SDK Kullanımı
 
 ### Python SDK (`kama_sdk.py`)
 ```python
 from kama_sdk import KamaAI
 
-kama = KamaAI(api_url="https://ai.oedge.xyz")
+kama = KamaAI(base_url="http://localhost:8000")
 
-# Bilişsel Analiz
-sonuc = kama.analyze("s.i.k.i.k herif @.m.k")
-print(sonuc["sinif"]) # KUFUR
-print(sonuc["toksisite_skoru"]) # 0.95
+# Tekli analiz
+res = kama.analyze("Projenin yeni sürümü harika olmuş!")
+print(res["durum"]) # "TEMIZ"
 
-# AI Diplomat Dönüşümü
-kibar = kama.rewrite_diplomat("Projeyi batırdın boş yapma", tone="KURUMSAL")
-print(kibar["diplomatik_versiyon"])
+# KVKK Maskeleme
+pii = kama.mask_pii("Telefonum 0532 123 45 67, TCKN 12345678901")
+print(pii["masked"]) # "Telefonum 05** *** ** 67, TCKN 123******01"
 ```
 
-### Node.js / Discord Bot Moderasyonu (`kama_sdk.js`)
+### JavaScript / Node.js SDK (`kama_sdk.js`)
 ```javascript
-const { Client, GatewayIntentBits } = require('discord.js');
-const { KamaAI } = require('./kama_sdk');
+const KamaAI = require('./kama_sdk');
+const kama = KamaAI.createClient({ baseUrl: 'http://localhost:8000' });
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
-const kama = new KamaAI({ apiUrl: 'https://ai.oedge.xyz' });
-
-// Mesajları otomatik denetleyen middleware
-client.on('messageCreate', kama.createDiscordMiddleware({ autoDelete: true, warnUser: true }));
-client.login(process.env.DISCORD_TOKEN);
+async function check() {
+  const res = await kama.analyze('Test mesajı');
+  console.log(res.durum, res.guven_skoru);
+}
+check();
 ```
 
 ---
 
-## 🧠 RoBERTa Fine-Tuning Pipeline
-
-Model ağırlıklarını kendi Türkçe veri setinizle eğitmek için:
-
+## 🧪 Testleri Çalıştırma
 ```bash
-python3 train_kama6_roberta.py
+python test_kama1_engine.py
 ```
 
 ---
 
 ## 📄 Lisans
-
-Bu proje **MIT Lisansı** ile lisanslanmıştır. Origin Edge Deep Neural Architecture tarafından geliştirilmiştir.
+Bu proje **MIT Lisansı** altında açık kaynaklı olarak yayınlanmıştır. Origin Edge ekosisteminin bir parçasıdır.

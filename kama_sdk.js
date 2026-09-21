@@ -1,98 +1,87 @@
 /**
- * KAMA AI 6.0 - Official Node.js / JavaScript SDK
- * Origin Edge Deep Neural Architecture
+ * KAMA AI 1.0 Official JavaScript / Node.js SDK
+ * Ultra-fast client for KAMA AI Foundation Model & Content Moderation API
+ * Zero external dependencies.
+ * 
+ * @license MIT
  */
 
-class KamaAI {
-  /**
-   * @param {Object} options
-   * @param {string} [options.apiUrl='https://ai.oedge.xyz']
-   * @param {string} [options.apiKey]
-   */
-  constructor(options = {}) {
-    this.apiUrl = (options.apiUrl || 'https://ai.oedge.xyz').replace(/\/$/, '');
-    this.apiKey = options.apiKey || null;
+(function (root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    define([], factory);
+  } else if (typeof module === 'object' && module.exports) {
+    module.exports = factory();
+  } else {
+    root.KamaAI = factory();
   }
+}(typeof self !== 'undefined' ? self : this, function () {
+  'use strict';
 
-  getHeaders() {
-    const headers = { 'Content-Type': 'application/json' };
-    if (this.apiKey) {
-      headers['Authorization'] = `Bearer ${this.apiKey}`;
+  class KamaClient {
+    constructor(config = {}) {
+      this.baseUrl = (config.baseUrl || 'http://localhost:8000').replace(/\/+$/, '');
+      this.apiKey = config.apiKey || null;
+      this.timeout = config.timeout || 10000;
     }
-    return headers;
-  }
 
-  /**
-   * Tam bilişsel metin analizi (Toksisite, Leetspeak, Siber Zorbalık, Çocuk Güvenliği)
-   * @param {string} text 
-   * @returns {Promise<Object>}
-   */
-  async analyze(text) {
-    const res = await fetch(`${this.apiUrl}/api/v6/analyze`, {
-      method: 'POST',
-      headers: this.getHeaders(),
-      body: JSON.stringify({ metin: text })
-    });
-    if (!res.ok) throw new Error(`KAMA AI Error: ${res.statusText}`);
-    return await res.json();
-  }
-
-  /**
-   * AI Diplomat ile metni profesyonel / yapıcı tona dönüştürme
-   * @param {string} text 
-   * @param {'KURUMSAL'|'ARKADAS_CANLISI'|'YAPICI'|'SAKINLESTIRICI'} tone 
-   * @returns {Promise<Object>}
-   */
-  async rewriteDiplomat(text, tone = 'KURUMSAL') {
-    const res = await fetch(`${this.apiUrl}/api/v6/diplomat`, {
-      method: 'POST',
-      headers: this.getHeaders(),
-      body: JSON.stringify({ metin: text, ton: tone })
-    });
-    if (!res.ok) throw new Error(`KAMA AI Error: ${res.statusText}`);
-    return await res.json();
-  }
-
-  /**
-   * KVKK Hassas Veri Maskeleme (T.C., IBAN, Telefon, Kart)
-   * @param {string} text 
-   * @returns {Promise<Object>}
-   */
-  async maskPII(text) {
-    const res = await fetch(`${this.apiUrl}/api/v6/mask-pii`, {
-      method: 'POST',
-      headers: this.getHeaders(),
-      body: JSON.stringify({ metin: text })
-    });
-    if (!res.ok) throw new Error(`KAMA AI Error: ${res.statusText}`);
-    return await res.json();
-  }
-
-  /**
-   * Discord.js Bot Mesaj Moderasyon Middleware
-   * Örnek: client.on('messageCreate', kama.createDiscordMiddleware({ autoDelete: true, warnUser: true }))
-   */
-  createDiscordMiddleware(options = { autoDelete: true, warnUser: true }) {
-    return async (message) => {
-      if (message.author.bot || !message.content) return;
-      try {
-        const result = await this.analyze(message.content);
-        if (result.toksisite_skoru >= 0.7 || result.sinif === 'KUFUR' || result.sinif === 'TEHDIT') {
-          if (options.autoDelete && message.deletable) {
-            await message.delete();
-          }
-          if (options.warnUser) {
-            const reply = await message.channel.send(`⚠️ <@${message.author.id}>, mesajınız **KAMA AI 6.0 Güvenlik Kalkanı** tarafından engellendi (${result.sinif}). Lütfen kurallara uyun.`);
-            setTimeout(() => reply.delete().catch(() => {}), 5000);
-          }
-        }
-      } catch (err) {
-        console.error('KAMA AI Discord Middleware Hatası:', err);
+    async _request(endpoint, payload = null, method = 'POST') {
+      const url = `${this.baseUrl}${endpoint}`;
+      const headers = { 'Content-Type': 'application/json' };
+      if (this.apiKey) {
+        headers['Authorization'] = `Bearer ${this.apiKey}`;
       }
-    };
-  }
-}
 
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { KamaAI };
-}
+      const options = {
+        method,
+        headers
+      };
+
+      if (payload) {
+        options.body = JSON.stringify(payload);
+      }
+
+      const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+      if (controller) {
+        options.signal = controller.signal;
+        setTimeout(() => controller.abort(), this.timeout);
+      }
+
+      const res = await fetch(url, options);
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(`[KamaAI] HTTP Error ${res.status}: ${text}`);
+      }
+      return await res.json();
+    }
+
+    async analyze(text) {
+      return await this._request('/v1/analyze', { text });
+    }
+
+    async denetle(mesaj) {
+      return await this.analyze(mesaj);
+    }
+
+    async batch(items) {
+      return await this._request('/v1/batch', { items });
+    }
+
+    async diplomat(text) {
+      return await this._request('/v1/diplomat', { text });
+    }
+
+    async maskPII(text) {
+      return await this._request('/v1/mask-pii', { text });
+    }
+
+    async getModelInfo() {
+      return await this._request('/v1/model-info', null, 'GET');
+    }
+  }
+
+  return {
+    version: '1.0.0',
+    Client: KamaClient,
+    createClient: (config) => new KamaClient(config)
+  };
+}));
